@@ -15,13 +15,13 @@ const corsOptions = {
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   credentials: true,
 };
-app.use(cors(corsOptions));
 
-// Middleware
+// Middleware order should be:
+app.use(cors(corsOptions));
+app.use(morgan("dev"));  // Move this up
 app.use(express.json());
 app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use("/api/v1", appRoute);
-app.use(morgan("dev"));
 
 // Error handling middleware
 app.use((err, req, res, next) => {
